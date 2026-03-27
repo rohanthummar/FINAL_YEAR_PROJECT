@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Resident Dashboard</h1>
+
+<div class="cards">
+
+<a href="/create-visitor/" style="text-decoration:none;">
+<div class="card blue">
+Create Visitor
+</div>
+</a>
+
+<a href="/create-complaint/" style="text-decoration:none;">
+<div class="card green">
+Create Complaint
+</div>
+</a>
+
+<a href="/create-booking/" style="text-decoration:none;">
+<div class="card orange">
+Book Facility
+</div>
+</a>
+
+<a href="/my-bills/" style="text-decoration:none;">
+<div class="card red">
+Maintenance Bills
+</div>
+</a>
+
+</div>
+
+{% endblock %}

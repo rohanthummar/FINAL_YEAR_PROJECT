@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .page-header {
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .visitor-card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .visitor-info {
+        line-height: 1.8;
+    }
+
+    .visitor-name {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .badge {
+        padding: 5px 10px;
+        border-radius: 8px;
+        font-size: 12px;
+        color: white;
+    }
+
+    .approve {
+        background: #27ae60;
+    }
+
+    .reject {
+        background: #e74c3c;
+    }
+
+    .action-btn {
+        padding: 8px 14px;
+        border-radius: 8px;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        margin-left: 10px;
+    }
+</style>
+
+<div class="page-header">🚪 Visitor Requests</div>
+
+{% for visitor in visitors %}
+
+<div class="visitor-card">
+
+    <div class="visitor-info">
+        <div class="visitor-name">👤 {{ visitor.visitor_name }}</div>
+        <div>📞 Phone: {{ visitor.phone }}</div>
+        <div>🏠 Flat: {{ visitor.flat_number }}</div>
+        <div>📌 Purpose: {{ visitor.purpose }}</div>
+    </div>
+
+    <div>
+        <a href="{% url 'approve_visitor' visitor.id %}" class="action-btn approve">
+            ✔ Approve
+        </a>
+
+        <a href="{% url 'reject_visitor' visitor.id %}" class="action-btn reject">
+            ✖ Reject
+        </a>
+    </div>
+
+</div>
+
+{% empty %}
+<p>No visitor requests</p>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .form-title {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        background: #27ae60;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-size: 16px;
+    }
+</style>
+
+<div class="form-container">
+
+    <div class="form-title">💰 Create Maintenance Bill</div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Resident</label>
+            <select name="resident" class="form-input">
+                {% for user in residents %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Month</label>
+            <input type="text" name="month" class="form-input" placeholder="January">
+        </div>
+
+        <div class="form-group">
+            <label>Amount</label>
+            <input type="number" name="amount" class="form-input">
+        </div>
+
+        <button class="btn-submit">Create Bill</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

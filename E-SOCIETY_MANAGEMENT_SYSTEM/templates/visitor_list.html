@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .page-header {
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .visitor-card {
+        background: #fff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        margin-bottom: 20px;
+    }
+
+    .visitor-name {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .visitor-info {
+        line-height: 1.8;
+    }
+
+    .status-badge {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 5px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        color: white;
+    }
+
+    .approved {
+        background: #27ae60;
+    }
+
+    .pending {
+        background: #f39c12;
+    }
+
+    .rejected {
+        background: #e74c3c;
+    }
+</style>
+
+<div class="page-header">📋 Visitor Logs</div>
+
+{% for visitor in visitors %}
+
+<div class="visitor-card">
+
+    <div class="visitor-name">👤 {{ visitor.visitor_name }}</div>
+
+    <div class="visitor-info">
+        📞 Phone: {{ visitor.phone }} <br>
+        🏠 Flat: {{ visitor.flat_number }} <br>
+        📌 Purpose: {{ visitor.purpose }}
+    </div>
+
+    <span class="status-badge 
+        {% if visitor.status == 'approved' %}approved
+        {% elif visitor.status == 'pending' %}pending
+        {% else %}rejected{% endif %}">
+        {{ visitor.status|title }}
+    </span>
+
+</div>
+
+{% empty %}
+<p>No visitor logs available</p>
+{% endfor %}
+
+{% endblock %}

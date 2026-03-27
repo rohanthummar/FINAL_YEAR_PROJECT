@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Admin Dashboard</h1>
+
+
+<!-- CARDS -->
+<div class="cards">
+    <div class="card blue">Total Residents<br><br>{{ total_residents }}</div>
+    <div class="card green">Visitors<br><br>{{ total_visitors }}</div>
+    <div class="card orange">Complaints<br><br>{{ total_complaints }}</div>
+    <div class="card red">Revenue<br><br>₹ {{ total_revenue }}</div>
+</div>
+
+<br><br>
+
+<!-- CHARTS -->
+<div class="chart-grid">
+    <div class="chart-box">
+        <h3>Visitors Analytics</h3>
+        <canvas id="visitorChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h3>Complaint Status</h3>
+        <canvas id="complaintChart"></canvas>
+    </div>
+</div>
+
+<!-- 🔥 ADD SCRIPT HERE -->
+<script>
+
+console.log("JS Loaded ✅");
+
+const visitorLabels = {{ visitor_labels|safe }};
+const visitorData = {{ visitor_counts|safe }};
+const complaintLabels = {{ complaint_labels|safe }};
+const complaintData = {{ complaint_counts|safe }};
+
+console.log(visitorLabels, visitorData);
+
+new Chart(document.getElementById('visitorChart'), {
+    type: 'bar',
+    data: {
+        labels: visitorLabels,
+        datasets: [{
+            label: 'Visitors',
+            data: visitorData,
+            backgroundColor: '#3498db'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+new Chart(document.getElementById('complaintChart'), {
+    type: 'pie',
+    data: {
+        labels: complaintLabels,
+        datasets: [{
+            data: complaintData,
+            backgroundColor: ['#e74c3c','#f39c12','#2ecc71','#3498db']
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+</script>
+
+{% endblock %}

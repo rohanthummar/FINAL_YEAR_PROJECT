@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .page-title {
+        font-size: 26px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .bill-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .bill-card {
+        background: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        transition: 0.3s;
+    }
+
+    .bill-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .bill-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .bill-info {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 8px;
+    }
+
+    .status-badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    .paid {
+        background: #28a745;
+        color: white;
+    }
+
+    .pending {
+        background: #f39c12;
+        color: white;
+    }
+
+    .btn-pay {
+        margin-top: 12px;
+        padding: 8px 14px;
+        background: #3498db;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn-pay:hover {
+        background: #2980b9;
+    }
+</style>
+
+<div class="page-title">💰 My Maintenance Bills</div>
+
+<div class="bill-container">
+
+    {% for bill in bills %}
+    <div class="bill-card">
+
+        <div class="bill-title">
+            📅 {{ bill.month }}
+        </div>
+
+        <div class="bill-info">
+            💵 Amount: ₹ {{ bill.amount }}
+        </div>
+
+        <div>
+            <span class="status-badge {% if bill.status == 'paid' %}paid{% else %}pending{% endif %}">
+                {{ bill.status }}
+            </span>
+        </div>
+
+        {% if bill.status != 'paid' %}
+        <form method="POST" action="{% url 'pay_bill' bill.id %}">
+            {% csrf_token %}
+           <button class="btn-pay" onclick="return confirm('Confirm payment of ₹{{ bill.amount }}?')">
+    Pay ₹{{ bill.amount }}
+</button>
+        </form>
+        {% endif %}
+
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

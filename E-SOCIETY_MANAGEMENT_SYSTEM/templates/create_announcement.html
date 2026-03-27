@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .form-container {
+        max-width: 600px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .form-title {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    .form-input:focus {
+        border-color: #3498db;
+        outline: none;
+    }
+
+    .form-textarea {
+        resize: none;
+        height: 120px;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 12px;
+        background: #3498db;
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn-submit:hover {
+        background: #2980b9;
+    }
+</style>
+
+<div class="form-container">
+
+    <div class="form-title">📢 Create Announcement</div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="form-label">Title</label>
+            <input type="text" name="title" class="form-input" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Message</label>
+            <textarea name="message" class="form-input form-textarea" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">
+            Post Announcement
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

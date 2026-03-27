@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<title>E-Society System</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:#f4f6f9;
+}
+
+/* Sidebar */
+
+/* Sidebar */
+
+.sidebar{
+width:240px;
+height:100vh;
+background: linear-gradient(180deg, #1f2d3d, #2c3e50);
+color:white;
+position:fixed;
+padding-top:10px;
+}
+
+.sidebar h2{
+text-align:center;
+padding:20px;
+margin:0;
+font-size:22px;
+font-weight:bold;
+letter-spacing:1px;
+background:#111;
+}
+
+/* Nav Links */
+
+.nav-link{
+display:flex;
+align-items:center;
+gap:10px;
+color:#ecf0f1;
+padding:12px 20px;
+margin:5px 10px;
+text-decoration:none;
+border-radius:8px;
+font-size:15px;
+transition: all 0.3s ease;
+}
+
+/* Hover Effect */
+.nav-link:hover{
+background:#3498db;
+transform:translateX(5px);
+color:white;
+}
+
+/* Active Link (optional) */
+.nav-link.active{
+background:#2980b9;
+font-weight:bold;
+}
+
+/* Logout Special */
+.logout{
+background:#e74c3c;
+margin-top:20px;
+}
+
+.logout:hover{
+background:#c0392b;
+}
+
+/* Main content */
+
+.main{
+margin-left:230px;
+padding:20px;
+}
+
+/* Top bar */
+
+.topbar{
+background:white;
+padding:15px;
+border-radius:6px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+margin-bottom:20px;
+}
+
+/* Cards */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+gap:20px;
+}
+
+.card{
+height:120px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+padding:20px;
+border-radius:10px;
+color:white;
+font-size:16px;
+font-weight:bold;
+transition:0.3s;
+}
+
+.card:hover{
+transform:scale(1.05);
+}
+
+.blue{background:#3498db;}
+.green{background:#27ae60;}
+.orange{background:#f39c12;}
+.red{background:#e74c3c;}
+
+/* Chart Grid aligned with cards */
+
+.chart-grid{
+display:grid;
+grid-template-columns: 1fr 1fr;
+gap:20px;
+margin-top:20px;
+width:100%;
+}
+
+.chart-box{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+height:350px;
+width:100%;
+}
+
+.chart-box canvas{
+width:100% !important;
+height:100% !important;
+}
+
+/* Table Card */
+.table-card{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Table */
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+table th{
+background:#2c3e50;
+color:white;
+padding:12px;
+text-align:left;
+}
+
+table td{
+padding:12px;
+border-bottom:1px solid #eee;
+}
+
+/* Hover */
+table tr:hover{
+background:#f9f9f9;
+}
+
+/* Badges */
+.badge{
+padding:5px 10px;
+border-radius:20px;
+font-size:12px;
+color:white;
+}
+
+.pending{background:#f39c12;}
+.in_progress{background:#3498db;}
+.resolved{background:#2ecc71;}
+
+/* Buttons */
+.btn{
+padding:8px 12px;
+background:#3498db;
+color:white;
+border-radius:6px;
+text-decoration:none;
+}
+
+.btn.small{
+font-size:12px;
+padding:6px 10px;
+}
+
+/* Announcement Cards */
+.announcement-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit, minmax(250px,1fr));
+gap:20px;
+}
+
+.announcement-card{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+border-left:5px solid #3498db;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<h2>E-Society</h2>
+
+{% if request.user.role == "admin" %}
+
+<a href="/admin-dashboard/" class="nav-link">📊 Dashboard</a>
+<a href="/admin-complaints/" class="nav-link">📝 Complaints</a>
+<a href="/booking-list/" class="nav-link">🏢 Facilities</a>
+<a href="/admin-bills/" class="nav-link">💰 Maintenance</a>
+<a href="/create-announcement/" class="nav-link">📢 Announcements</a>
+<a href="/logout/" class="nav-link logout">🚪 Logout</a>
+
+{% elif request.user.role == "resident" %}
+
+<a href="/resident-dashboard/" class="nav-link">📊 Dashboard</a>
+<a href="/create-visitor/" class="nav-link">👤 Visitors</a>
+<a href="/create-complaint/" class="nav-link">📝 Complaints</a>
+<a href="/create-booking/" class="nav-link">🏢 Facilities</a>
+<a href="/my-bills/" class="nav-link">💰 Maintenance</a>
+<a href="/announcements/" class="nav-link">📢 Announcements</a>
+<a href="/logout/" class="nav-link logout">🚪 Logout</a>
+
+{% elif request.user.role == "security" %}
+
+<a href="/security-dashboard/" class="nav-link">📊 Dashboard</a>
+<a href="/security-visitors/" class="nav-link">📋 Visitor Requests</a>
+<a href="/visitor-list/" class="nav-link">📑 Visitor Logs</a>
+<a href="/logout/" class="nav-link logout">🚪 Logout</a>
+
+{% endif %}
+
+</div>
+
+<div class="main">
+
+<div class="topbar">
+Welcome {{ request.user.username }}
+</div>
+
+{% block content %}
+
+{% endblock %}
+
+</div>
+
+<script>
+const links = document.querySelectorAll(".nav-link");
+links.forEach(link => {
+    if(link.href === window.location.href){
+        link.classList.add("active");
+    }
+});
+</script>
+
+</body>
+</html>
